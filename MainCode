@@ -1,4 +1,4 @@
-#### main codes for GMR project 
+#### main codes for CGVR project 
 # 1.Viral genome identification
 # 2.Compare with other database
 # 3.Pan-genome generation
@@ -25,12 +25,12 @@ blastn -query merged.fa \
        -out merged_blastn.tsv
 
 # 3. calculate pairwise ANI by combining local alignments between sequence pairs
-python /public/home/bioinfo_wang/00_software/checkv/scripts/anicalc.py \
+python anicalc.py \
        -i merged_blastn.tsv \
        -o merged_blastn_ani.tsv
 
 # 4. perform CD-HIT-like clustering using the MIUVIG recommended-parameters (95% ANI + 85% AF)
-python /public/home/bioinfo_wang/00_software/checkv/scripts/aniclust.py \
+python aniclust.py \
        --fna merged.fa \
        --ani merged_blastn_ani.tsv \
        --out merged_blastn_cluster.tsv \
