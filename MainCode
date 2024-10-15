@@ -2,9 +2,8 @@
 # 1. Viral genome identification
 # 2. Compare with other database
 # 3. CRISPR-spacer identification
-# 4. Pan-genome generation
-# 5. SNV calling
-# 6. Genomic dissimilarity
+# 4. Pan-genome and SNV
+# 5. Genomic dissimilarity
 
 ##############################################
 ####### 1. Viral genome identification #######
@@ -50,47 +49,17 @@ python identify_crispr.py -i MAG.fna -o out
 python merge_crispr.py out/crt out/pilercr out/merged
 
 ##############################################
-######## 4. Pangenome generation #############
+############ 4. Pan-genome and SNV ############
 ##############################################
-
+# 1. pangenome generation
 roary -e --mafft -i 90 -cd 90 -s gff/*.gff -f roary/ -p 2
 
-##############################################
-############ 5. SNV Calling ##################
-##############################################
-
+# 2. call SNV
 snippy --reference ${ref} --ctgs ${query} --outdir ${outdir} --prefix ${sample} --cpus 1 --mincov 5
 
 ##############################################
-####### 6. Genomic dissimilarity #############
+####### 5. Genomic dissimilarity #############
 ##############################################
 
-dfs = []
-for file in os.listdir('snippy/'):
-    vcf_file = pd.read_csv(os.path.join(path, 'snippy', file, file + '.csv'))
-    snp_file = vcf_file[vcf_file['TYPE'] == 'snp']     
-    snp_file['snv_site'] = snp_file['CHROM'].astype(str) + '__' + snp_file['POS'].astype(str) + '__' + snp_file['REF']
-    df = snp_file[['snv_site', 'ALT']]
-    df.rename(columns={'ALT': file}, inplace = True)
-    dfs.append(df)
-result_df = reduce(lambda left, right: pd.merge(left, right, on='snv_site', how='outer'), dfs)
+code see: https://github.com/MicrobiomeCardioMetaLab/GMR_project/blob/main/GMR_code_commandLine
 
-filter_df = result_df.set_index('snv_site')
-mask = filter_df.count(axis=1) / filter_df.shape[1] >= 0.2
-dat = filter_df[mask]
-print(dat)
-a = dat.apply(pd.value_counts, axis=1)
-b = a.isnull().sum(axis=1).tolist()
-
-# the case of 2 kind of base
-e = [i for i, x in enumerate(b) if x == 2]
-snv2 = dat.iloc[e, :]
-
-dis_matrix = []
-for a in list(snv2.columns):
-    print(a)
-    for b in list(snv.columns):
-        dis_matrix.append(calcu_dis(a, b))
-df = pd.concat(dis_matrix, axis=0)
-dat = df.pivot_table(index='sample1', columns='sample2', values='dis')
-dat.to_csv(path + 'dis.xls', sep='\t')
