@@ -8,7 +8,6 @@
 ##############################################
 ####### 1. Viral genome identification #######
 ##############################################
-
 # We utilized a single sample viral genome identification pipeline, code see https://github.com/RasmussenLab/phamb
 
 ##############################################
@@ -36,7 +35,6 @@ python aniclust.py \
        --out merged_blastn_cluster.tsv \
        --min_ani 95 --min_tcov 85 --min_qcov 0
 
-
 ##############################################
 ###### 3. CRISPR-spacer identification #######
 ##############################################
@@ -60,6 +58,5 @@ snippy --reference ${pan-genome} --ctgs ${query} --outdir ${outdir} --prefix ${s
 ##############################################
 ####### 5. Genomic dissimilarity #############
 ##############################################
-
 code see: https://github.com/MicrobiomeCardioMetaLab/GMR_project/blob/main/GMR_code_commandLine
 
