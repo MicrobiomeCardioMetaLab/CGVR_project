@@ -2,9 +2,9 @@
 # 1. Viral genome identification
 # 2. Compare with other database
 # 3. CRISPR-spacer identification
-# 3. Pan-genome generation
-# 4. SNV calling
-# 5. Genomic dissimilarity
+# 4. Pan-genome generation
+# 5. SNV calling
+# 6. Genomic dissimilarity
 
 ##############################################
 ####### 1. Viral genome identification #######
@@ -50,19 +50,19 @@ python identify_crispr.py -i MAG.fna -o out
 python merge_crispr.py out/crt out/pilercr out/merged
 
 ##############################################
-######## 3. Pangenome generation #############
+######## 4. Pangenome generation #############
 ##############################################
 
 roary -e --mafft -i 90 -cd 90 -s gff/*.gff -f roary/ -p 2
 
 ##############################################
-############ 4. SNV Calling ##################
+############ 5. SNV Calling ##################
 ##############################################
 
 snippy --reference ${ref} --ctgs ${query} --outdir ${outdir} --prefix ${sample} --cpus 1 --mincov 5
 
 ##############################################
-####### 5. Genomic dissimilarity #############
+####### 6. Genomic dissimilarity #############
 ##############################################
 
 dfs = []
