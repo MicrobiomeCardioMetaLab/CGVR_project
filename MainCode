@@ -1,9 +1,10 @@
 #### main codes for CGVR project 
-# 1.Viral genome identification
-# 2.Compare with other database
-# 3.Pan-genome generation
-# 4.SNV calling
-# 5.Genomic dissimilarity
+# 1. Viral genome identification
+# 2. Compare with other database
+# 3. CRISPR-spacer identification
+# 3. Pan-genome generation
+# 4. SNV calling
+# 5. Genomic dissimilarity
 
 ##############################################
 ####### 1. Viral genome identification #######
@@ -35,6 +36,18 @@ python aniclust.py \
        --ani merged_blastn_ani.tsv \
        --out merged_blastn_cluster.tsv \
        --min_ani 95 --min_tcov 85 --min_qcov 0
+
+
+##############################################
+###### 3. CRISPR-spacer identification #######
+##############################################
+# script code see : https://github.com/snayfach/MGV/blob/master/crispr_spacers/README.md
+
+# 1. Identify CRISPR arrays using CRT and PILERCR
+python identify_crispr.py -i MAG.fna -o out
+
+# 2. Merge overlapping CRISPR arrays
+python merge_crispr.py out/crt out/pilercr out/merged
 
 ##############################################
 ######## 3. Pangenome generation #############
