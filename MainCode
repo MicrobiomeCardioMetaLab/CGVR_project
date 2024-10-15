@@ -52,7 +52,7 @@ python merge_crispr.py out/crt out/pilercr out/merged
 ######## 4. Pan-genome and SNV calling #######
 ##############################################
 # 1. pan-genome 
-roary -e --mafft -i 95  gff/*.gff -f roary/ -p ${cpu}
+roary -e --mafft -s -i 95 gff/*.gff -f roary/ -p ${cpu}
 
 # 2. call SNV
 snippy --reference ${pan-genome} --ctgs ${query} --outdir ${outdir} --prefix ${sample} --mincov 10
