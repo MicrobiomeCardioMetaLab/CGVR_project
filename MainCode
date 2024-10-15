@@ -49,13 +49,13 @@ python identify_crispr.py -i MAG.fna -o out
 python merge_crispr.py out/crt out/pilercr out/merged
 
 ##############################################
-############ 4. Pan-genome and SNV ############
+######## 4. Pan-genome and SNV calling #######
 ##############################################
-# 1. pangenome generation
-roary -e --mafft -i 90 -cd 90 -s gff/*.gff -f roary/ -p 2
+# 1. pan-genome 
+roary -e --mafft -i 95  gff/*.gff -f roary/ -p ${cpu}
 
 # 2. call SNV
-snippy --reference ${ref} --ctgs ${query} --outdir ${outdir} --prefix ${sample} --cpus 1 --mincov 5
+snippy --reference ${pan-genome} --ctgs ${query} --outdir ${outdir} --prefix ${sample} --mincov 10
 
 ##############################################
 ####### 5. Genomic dissimilarity #############
